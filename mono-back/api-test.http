@@ -1,0 +1,34 @@
+### 全件取得
+GET http://localhost:8080/users?page=0&size=5
+
+### userId検索
+GET http://localhost:8080/users?page=0&size=5&userId=u001
+
+### userName検索
+GET http://localhost:8080/users?page=0&size=5&userName=山田
+
+### ソート
+GET http://localhost:8080/users?page=0&size=5&sort=userId,desc
+
+### ユーザー作成
+POST http://localhost:8080/users
+Content-Type: application/json
+
+# {
+#   "userId": "",
+#   "userName": ""
+# }
+
+{
+  "userId": "u002",
+  "userName": "佐藤花子"
+}
+
+### ユーザー更新
+PUT http://localhost:8080/users/1
+Content-Type: application/json
+
+{
+  "userId": "u001",
+  "userName": "山田太郎"
+}
