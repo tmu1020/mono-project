@@ -110,7 +110,7 @@
 					<td>{user.userId}</td>
 					<td>{user.userName}</td>
 					<td style="width: 100px;">
-						<a href={`/users/${user.id}`}>詳細</a>
+						<a href={`/users/${user.id}`} style="text-align: center; display: block;">詳細</a>
 					</td>
 				</tr>
 			{/each}
@@ -119,25 +119,20 @@
 </table>
 
 <div style="margin-top: 16px;">
-	<strong>ページ:</strong> {page} / {totalPages}
+	<button on:click={() => movePage(page - 1)} disabled={page === 1}>
+		前へ
+	</button>
+
+	<strong style="margin-left: 12px; margin-right: 12px;">
+		ページ:  {page} / {totalPages}
+	</strong> 
+
+	<button on:click={() => movePage(page + 1)} disabled={page === totalPages}>
+		次へ
+	</button>
+	
 	<strong style="margin-left: 12px;">全件数:</strong> {total}
 </div>
-
-{#if totalPages > 1}
-	<div style="margin-top: 8px;">
-		<button on:click={() => movePage(page - 1)} disabled={page === 1}>
-			前へ
-		</button>
-
-		<span style="margin: 0 8px;">
-			{page} / {totalPages}
-		</span>
-
-		<button on:click={() => movePage(page + 1)} disabled={page === totalPages}>
-			次へ
-		</button>
-	</div>
-{/if}
 
 <div style="margin-top: 16px;">
 	<a href="/users/new">

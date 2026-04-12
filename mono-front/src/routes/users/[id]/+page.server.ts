@@ -53,7 +53,6 @@ export const actions: Actions = {
 			});
 		}
 
-		// ★ここに出す
 		throw redirect(303, '/users');
 	}
 };

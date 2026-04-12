@@ -1,18 +1,46 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  postgres:
+  db:
     image: postgres:15
-    container_name: mono-postgres
+    container_name: mono-db
     restart: always
-    environment:
-      POSTGRES_DB: mono
-      POSTGRES_USER: mono
-      POSTGRES_PASSWORD: mono
+    env_file:
+      - .env
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./mono-back
+    container_name: mono-backend
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+  frontend:
+    build: ./mono-front
+    container_name: mono-frontend
+    depends_on:
+      - backend
+    working_dir: /app
+    command: npm run dev -- --host
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./mono-front:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
 volumes:
-  postgres-data:
+  db-data:

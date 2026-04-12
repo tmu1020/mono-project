@@ -3,7 +3,7 @@
 	export let form;
 </script>
 
-<h2>{data.user ? 'ユーザー詳細' : 'ユーザー新規登録'}</h2>
+<h1>{data.user ? 'ユーザー詳細' : 'ユーザー新規登録'}</h1>
 
 {#if form?.message}
 	<p style="color:red;">{form.message}</p>

@@ -1,6 +1,3 @@
-<!-- Svelte Tutorial -->
-<!-- introduction -->
-
 <h1>Svelte Tutorial (Introduction～Bindings)</h1>
 
 <p>
@@ -174,7 +171,7 @@
 
 <h2>Flavours</h2>
 
-{#each ['cookies and cream', 'mint choc chip', 'rasberry'] as flavour(flavour)}
+{#each ['cookies and cream', 'mint choc chip', 'rasberry ripple'] as flavour(flavour)}
     <label>
         <input 
             type="checkbox"
@@ -224,7 +221,10 @@
 	import { marked } from 'marked';
     import DOMPurify from "dompurify";
 
-    const safe = DOMPurify.sanitize(`this string contains some <strong>HTML!!!</strong>`);
+    let safe = $state(`this string contains some <strong>HTML!!!</strong>`);
+    onMount(() => {
+        safe = DOMPurify.sanitize(safe);
+    });
     let name = $state('world');
     let src = '/images/man-dances.gif';
     let count = $state(0);
@@ -263,6 +263,9 @@
     let flavours = $state([]);
     const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction'});
     let textValue = $state(`Some words are *italic*, some are **bold**\n\n- lists\n- are\n- cool`);
+    onMount(() => {
+        textValue = DOMPurify.sanitize(textValue);
+    });
     
     const pkg = {
         name: 'svelte',

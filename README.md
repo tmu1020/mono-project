@@ -1,16 +1,34 @@
 # mono-project
 
-SvelteKit（Frontend） + Quarkus（Backend）で構成された  
-ユーザー管理アプリケーションです。
+SvelteKit（Frontend） + Quarkus（Backend） + PostgreSQL（DB）で構成された  
+ユーザー管理Webアプリケーションです。
+
+Dockerを用いてフロント・バックエンド・DBを統合し、  
+ローカル環境で一貫した開発・実行が可能です。
 
 ---
 
-## 構成
+## ディレクトリ構成
 
 ```
 mono-project/
 ├─ mono-front/   # フロントエンド（SvelteKit）
-└─ mono-back/    # バックエンド（Quarkus + PostgreSQL）
+├─ mono-back/    # バックエンド（Quarkus + PostgreSQL）
+└─ docker-compose.yml
+```
+
+---
+
+## システム構成
+
+```
+[ Browser ]
+↓
+[ Frontend (SvelteKit) ]
+↓ fetch
+[ Backend (Quarkus API) ]
+↓
+[ PostgreSQL ]
 ```
 
 ---
@@ -30,35 +48,24 @@ mono-project/
 
 ---
 
-## 起動手順（最短）
+## 起動手順
 
-### ① DB起動
-
-```bash
-cd mono-back
-docker compose up -d
-```
-
-### ② Backend起動
+### 前提条件
+- Docker Desktop がインストールされていること
+- Docker Desktop が起動していること
 
 ```bash
-cd mono-back
-mvn quarkus:dev
+# プロジェクトルート(mono-project/)で実行
+docker compose up --build
 ```
 
 起動確認：
-http://localhost:8080/q/swagger-ui
-
-### ③ Frontend起動
-
-```bash
-cd mono-front
-pnpm install
-pnpm dev
-```
-
-起動確認：
+- Frontend
 http://localhost:5173/users
+- Backend
+http://localhost:8080/
+- Swagger UI
+http://localhost:8080/q/swagger-ui
 
 ---
 
@@ -77,6 +84,12 @@ http://localhost:5173/users
 
 ```
 GET /users?page=0&size=5&sort=userId,asc&userId=u&userName=山田
+```
+
+### 単体取得
+
+```
+GET /users/{id}
 ```
 
 ### 作成
@@ -101,16 +114,12 @@ DELETE /users/{id}
 
 ## 設計ポイント
 
-- DTOとEntityの分離
-- Service層でトランザクション管理
-- 例外を統一（BusinessException）
-- ページング / ソート / 検索対応
-- FlywayによるDB管理
+### 責務の分離
+- Frontend：UI + API呼び出し
+- Backend：ビジネスロジック + DB操作
 
----
+### API設計
+- ページング / ソート / 検索をクエリパラメータで統一
 
-## 補足
-
-- DBはDockerで起動
-- CORSは全許可（開発用）
-- バリデーションはBean Validationで実施
+### DB管理
+- Flywayでマイグレーションを自動適用

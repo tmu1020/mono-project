@@ -5,7 +5,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
+	<body data-sveltekit-preload-data="hover";>
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
+
+	<style>
+		body {
+			max-width: 1280px;
+			margin: 0 auto;
+			padding: 20px;
+		}
+	</style>
 </html>
+

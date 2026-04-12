@@ -1,4 +1,4 @@
-export const API_BASE = 'http://localhost:8080';
+export const API_BASE = 'http://backend:8080';
 
 type UserRequest = {
 	userId: string;
@@ -13,7 +13,7 @@ async function handleResponse(res: Response) {
 			const err = await res.json();
 			message = err.message ?? message;
 		} catch {
-			// bodyなしでもOK
+			// JSONのパースに失敗した場合は、デフォルトのエラーメッセージを使用
 		}
 
 		throw new Error(message);
