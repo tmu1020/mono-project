@@ -124,14 +124,16 @@
 	</button>
 
 	<strong style="margin-left: 12px; margin-right: 12px;">
-		ページ:  {page} / {totalPages}
+		ページ : {page} / {totalPages}
 	</strong> 
 
 	<button on:click={() => movePage(page + 1)} disabled={page === totalPages}>
 		次へ
 	</button>
 	
-	<strong style="margin-left: 12px;">全件数:</strong> {total}
+	<strong style="margin-left: 12px;">
+		全件数 : {total}
+	</strong> 
 </div>
 
 <div style="margin-top: 16px;">
