@@ -14,7 +14,8 @@
 	let searchUserName = data.userName;
 
 	const pageSize = 5;
-	$: totalPages = Math.ceil(total / pageSize);
+	$: totalPages = Math.max(1, Math.ceil(total / pageSize));
+	$: currentPage = Math.min(page, totalPages);
 
 	function sort(key: typeof sortKey) {
 
@@ -38,6 +39,8 @@
 	}
 
 	function movePage(p: number) {
+		if (p < 1 || p > totalPages) return;
+
 		goto(
 			`?page=${p}&sort=${sortKey}&order=${order}&userId=${searchUserId}&userName=${searchUserName}`,
 			{ invalidateAll: true }
@@ -119,15 +122,15 @@
 </table>
 
 <div style="margin-top: 16px;">
-	<button on:click={() => movePage(page - 1)} disabled={page === 1}>
+	<button on:click={() => movePage(page - 1)} disabled={currentPage === 1}>
 		前へ
 	</button>
 
 	<strong style="margin-left: 12px; margin-right: 12px;">
-		ページ : {page} / {totalPages}
+		ページ : {currentPage} / {totalPages}
 	</strong> 
 
-	<button on:click={() => movePage(page + 1)} disabled={page === totalPages}>
+	<button on:click={() => movePage(page + 1)} disabled={currentPage === totalPages}>
 		次へ
 	</button>
 	

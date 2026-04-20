@@ -27,20 +27,5 @@ services:
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
 
-  frontend:
-    build: ./mono-front
-    container_name: mono-frontend
-    depends_on:
-      - backend
-    working_dir: /app
-    command: npm run dev -- --host
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./mono-front:/app
-      - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-
 volumes:
   db-data:
