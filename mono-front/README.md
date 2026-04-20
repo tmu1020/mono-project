@@ -78,32 +78,6 @@ DELETE|/users/{id}|ユーザー削除|
 
 ---
 
-## 起動方法
-
-### 1. 前提
-
-- 以下がインストールされていること
-  - Node.js (v18以上)
-  - pnpm または npm
-- Backend（mono-back）を起動していること
-※詳細は mono-back の README 参照
-
-### 2. Frontend起動
-
-```bash
-# 初回のみ
-pnpm install
-# 開発サーバー起動
-pnpm dev
-```
-
-起動後アクセス
-```
-http://localhost:5173/users
-```
-
----
-
 ## ディレクトリ構成（抜粋）
 
 ```
