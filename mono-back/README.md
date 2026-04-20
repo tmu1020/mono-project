@@ -128,57 +128,6 @@ GET /users?page=0&size=5
 
 ---
 
-## セットアップ
-
-必要ソフト
-
-- Java 21
-- Maven
-- Docker
-
----
-
-## 起動手順
-
-### 1. 前提
-
-- Dockerが起動していること
-- Java 21 がインストールされていること
-
-### 2. DB、Backend起動
-
-```bash
-cd mono-back
-docker compose up -d
-mvn quarkus:dev
-```
-
-PostgreSQL 接続情報
-
-```
-host : localhost
-port : 5432
-db   : mono
-user : mono
-pass : mono
-```
-
----
-
-### 2. 動作確認
-
-- API
-```
-http://localhost:8080
-```
-
-- Swagger UI
-```
-http://localhost:8080/q/swagger-ui
-```
-
----
-
 ## DBマイグレーション
 
 Flyway を使用しています。
