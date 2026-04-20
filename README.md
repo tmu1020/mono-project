@@ -50,13 +50,29 @@ mono-project/
 
 ## 起動手順
 
-### 前提条件
+### ①前提条件
 - Docker Desktop がインストールされていること
 - Docker Desktop が起動していること
 
+### ②リポジトリをクローン
+```bash
+git clone <リポジトリURL>
+cd mono-project
+```
+
+### ③フロントエンドの依存関係をインストール
+```bash
+cd mono-frontend
+npm install
+cd ..
+```
+
+### ④Dockerコンテナ起動
 ```bash
 # プロジェクトルート(mono-project/)で実行
 docker compose up --build
+# (開発時)コード修正後
+docker compose up
 ```
 
 起動確認：
