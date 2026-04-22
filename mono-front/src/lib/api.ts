@@ -5,18 +5,31 @@ type UserRequest = {
 	userName: string;
 };
 
+export class ApiError extends Error {
+	status: number;
+	code?: string;
+
+	constructor(status: number, message: string, code?: string) {
+		super(message);
+		this.status = status;
+		this.code = code;
+	}
+}
+
 async function handleResponse(res: Response) {
 	if (!res.ok) {
 		let message = 'エラーが発生しました';
+		let code: string | undefined;
 
 		try {
 			const err = await res.json();
 			message = err.message ?? message;
+			code = err.code;
 		} catch {
-			// JSONのパースに失敗した場合は、デフォルトのエラーメッセージを使用
+			// JSONパース失敗時はデフォルト
 		}
 
-		throw new Error(message);
+		throw new ApiError(res.status, message, code);
 	}
 
 	if (res.status === 204) {
@@ -58,6 +71,5 @@ export async function deleteUser(fetch: typeof globalThis.fetch, id: string) {
 	const res = await fetch(`${API_BASE}/users/${id}`, {
 		method: 'DELETE'
 	});
-
 	return handleResponse(res);
 }

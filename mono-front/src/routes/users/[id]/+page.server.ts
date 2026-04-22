@@ -1,6 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
-import { redirect, fail } from '@sveltejs/kit';
-import { getUser, createUser, updateUser, deleteUser } from '$lib/api';
+import { redirect, fail, error } from '@sveltejs/kit';
+import { getUser, createUser, updateUser, deleteUser, ApiError } from '$lib/api';
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
 
@@ -8,9 +8,17 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		return { user: null };
 	}
 
-	const user = await getUser(fetch, params.id);
+	try {
+		const user = await getUser(fetch, params.id);
+		return { user };
+	} catch (e: unknown) {
 
-	return { user };
+		if (e instanceof ApiError) {
+			throw error(e.status, e.message);
+		}
+
+		throw error(500, 'エラー発生');
+	}
 };
 
 export const actions: Actions = {
@@ -23,7 +31,7 @@ export const actions: Actions = {
 		const userName = form.get('userName')?.toString();
 
 		if (!userId || !userName) {
-			return fail(401, { message: '入力必須' });
+			return fail(400, { message: '入力必須' });
 		}
 
 		try {
@@ -35,8 +43,16 @@ export const actions: Actions = {
 			}
 
 		} catch (e: unknown) {
-			return fail(400, {
-				message: e instanceof Error ? e.message : 'エラー発生'
+
+			if (e instanceof ApiError) {
+				return fail(e.status, {
+					message: e.message,
+					code: e.code
+				});
+			}
+
+			return fail(500, {
+				message: 'エラー発生'
 			});
 		}
 
@@ -48,8 +64,16 @@ export const actions: Actions = {
 		try {
 			await deleteUser(fetch, params.id);
 		} catch (e: unknown) {
-			return fail(400, {
-				message: e instanceof Error ? e.message : 'エラー発生'
+
+			if (e instanceof ApiError) {
+				return fail(e.status, {
+					message: e.message,
+					code: e.code
+				});
+			}
+
+			return fail(500, {
+				message: 'エラー発生'
 			});
 		}
 
