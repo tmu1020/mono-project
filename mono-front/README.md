@@ -27,16 +27,37 @@ Quarkus REST API（mono-back）と通信し、ユーザーのCRUD操作を行い
 
 ---
 
+## 起動方法
+
+### ①前提条件
+- バックエンド(mono-back)が起動していること
+- Node.js（推奨: v18以上）がインストールされていること
+
+### ②フロントエンドの起動
+```bash
+cd mono-front
+pnpm install
+pnpm dev
+```
+
+ブラウザで以下にアクセス
+```
+http://localhost:5173
+```
+
+---
+
 ## 画面一覧
 
 ### ユーザー検索画面
 
 機能
 
-- userId検索
-- userName検索
-- カラムソート
-- ページネーション（5件）
+- userId（部分一致検索）
+- userName（部分一致検索）
+- カラムソート（userId, userName）
+  - 昇順 / 降順切り替え可能
+- ページネーション（1ページあたり5件）
 
 表示項目
 

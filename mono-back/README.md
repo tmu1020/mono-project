@@ -17,6 +17,14 @@ PostgreSQL を使用してユーザー情報を管理します。
 
 ---
 
+## 起動手順
+```bash
+# プロジェクトルート(mono-project/)で実行
+docker compose up --build
+```
+
+---
+
 ## アーキテクチャ
 
 本プロジェクトでは以下のレイヤー構成を採用しています。
@@ -56,8 +64,8 @@ DELETE|/users/{id}|ユーザー削除|
 
 |パラメータ|説明|
 |---|---|
-userId|ユーザーID部分一致検索|
-userName|ユーザー名部分一致検索|
+userId|ユーザーID検索(部分一致)|
+userName|ユーザー名検索(部分一致)|
 
 例
 
@@ -74,6 +82,10 @@ GET /users?page=0&size=5&userId=u001
 ```
 sort=<field>,<order>
 ```
+
+利用可能なfield:
+- userId
+- userName
 
 例
 
@@ -108,6 +120,13 @@ GET /users?page=0&size=5
   ]
 }
 ```
+
+|フィールド|説明|
+|---|---|
+total|総件数|
+page|現在ページ|
+size|ページサイズ|
+data|ユーザー一覧|
 
 ## エラーハンドリング
 
@@ -152,13 +171,17 @@ Flyway を使用しています。
 
 users テーブル
 
-|column|type|
-|---|---|
-id|SERIAL|
-user_id|VARCHAR(50)|
-user_name|VARCHAR(100)|
-created_at|TIMESTAMP|
-updated_at|TIMESTAMP|
+|column|type|constraints|説明|
+|---|---|---|---|
+|id|SERIAL|PRIMARY KEY|内部ID|
+|user_id|VARCHAR(50)|NOT NULL, UNIQUE|ユーザーID（業務キー）|
+|user_name|VARCHAR(100)|NOT NULL|ユーザー名|
+|created_at|TIMESTAMP|NOT NULL|作成日時|
+|updated_at|TIMESTAMP|NOT NULL|更新日時|
+
+### 補足
+- user_id は業務上の一意キーとして扱います
+- created_at / updated_at はアプリケーション側で自動設定されます
 
 ---
 
@@ -168,3 +191,6 @@ updated_at|TIMESTAMP|
 - JWT認証
 - 論理削除
 - CI/CD
+
+## 補足
+- 初期データはマイグレーションによって追加されます

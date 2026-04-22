@@ -23,7 +23,7 @@ export const actions: Actions = {
 		const userName = form.get('userName')?.toString();
 
 		if (!userId || !userName) {
-			return fail(400, { message: '入力必須' });
+			return fail(401, { message: '入力必須' });
 		}
 
 		try {
