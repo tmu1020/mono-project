@@ -87,7 +87,7 @@
 <div class="pointer-box" onpointermove={(event) => {
     m.x = event.clientX;
     m.y = event.clientY;
-}}>
+}} role="presentation">
     The pointer is at {Math.round(m.x)} x {Math.round(m.y)}
 </div>
 
