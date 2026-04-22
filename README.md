@@ -53,26 +53,24 @@ mono-project/
 ### ①前提条件
 - Docker Desktop がインストールされていること
 - Docker Desktop が起動していること
+- Node.js（推奨: v18以上）がインストールされていること
 
 ### ②リポジトリをクローン
 ```bash
 git clone <リポジトリURL>
 cd mono-project
 ```
-
-### ③フロントエンドの依存関係をインストール
-```bash
-cd mono-frontend
-npm install
-cd ..
-```
-
-### ④Dockerコンテナ起動
+### ③Dockerコンテナ(DB, バックエンド)の起動
 ```bash
 # プロジェクトルート(mono-project/)で実行
 docker compose up --build
-# (開発時)コード修正後
-docker compose up
+```
+
+### ④フロントエンドの起動
+```bash
+cd mono-front
+pnpm install
+pnpm dev
 ```
 
 起動確認：
@@ -132,10 +130,13 @@ DELETE /users/{id}
 
 ### 責務の分離
 - Frontend：UI + API呼び出し
-- Backend：ビジネスロジック + DB操作
+- Backend ：ビジネスロジック + DB操作
 
 ### API設計
 - ページング / ソート / 検索をクエリパラメータで統一
 
 ### DB管理
 - Flywayでマイグレーションを自動適用
+
+## 補足
+- 初期データはマイグレーションによって追加される
