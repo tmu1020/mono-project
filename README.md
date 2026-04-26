@@ -3,8 +3,8 @@
 SvelteKit（Frontend） + Quarkus（Backend） + PostgreSQL（DB）で構成された  
 ユーザー管理Webアプリケーションです。
 
-Dockerを用いてフロント・バックエンド・DBを統合し、  
-ローカル環境で一貫した開発・実行が可能です。
+バックエンドとDBはDockerで起動し、
+フロントエンドはローカル環境で起動します。
 
 ---
 
@@ -39,8 +39,10 @@ mono-project/
 - SvelteKit
 - TypeScript
 - Fetch API
+- pnpm
 
 ### Backend
+- Java 21
 - Quarkus
 - Hibernate ORM (Panache)
 - PostgreSQL
@@ -57,7 +59,7 @@ mono-project/
 
 ### ②リポジトリをクローン
 ```bash
-git clone <リポジトリURL>
+git clone https://github.com/tmu1020/mono-project.git
 cd mono-project
 ```
 ### ③Dockerコンテナ(DB, バックエンド)の起動
